@@ -1,5 +1,5 @@
-Pacman Log Viewer 1.3.1
-Copyright (C) 2012-2015 Giuseppe Calà <jiveaxe@gmail.com>
+Pacman Log Viewer 1.4.0
+Copyright (C) 2012-2019 Giuseppe Calà <jiveaxe@gmail.com>
 
 Pacman Log viewer is a tool used to inspect pacman log file, in particular
 it lists installed, removed and upgraded packages letting you to filter
