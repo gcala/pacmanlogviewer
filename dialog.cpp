@@ -163,10 +163,14 @@ void Dialog::readPacmanLogFile(const QString &logFile)
 
     QStringList names;
 
-    QRegExp rx("\\\[([0-9-]+)\\\s([0-9\\\:]+)\\\][\\\s\\\[(PACMAN|ALPM)\\\]]*\\\s(installed|removed|upgraded)\\\s([\\\w-]+)\\\s\\\((.+)\\\)");
+    QRegExp rx("\\\[([0-9-]+).+\\\][\\\s\\\[(PACMAN|ALPM)\\\]]*\\\s(installed|removed|upgraded)\\\s([\\\w-]+)\\\s\\\((.+)\\\)");
 
     while(!file.atEnd()) {
         QString line = file.readLine();
+        
+        if(line.contains("[PACKAGEKIT]"))
+            continue;
+        
         rx.indexIn(line);
         if(rx.cap(3).isEmpty())
             continue;
