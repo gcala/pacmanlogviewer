@@ -1,0 +1,2 @@
+#define PLV_VERSION "${PLV_VERSION}"
+

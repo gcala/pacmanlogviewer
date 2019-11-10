@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Pacman Log Viewer
+Comment=Inspect pacman log
+Comment[it]=Ispeziona il registro di pacman
+Exec=plv
+Terminal=false
+Type=Application
+Icon=plv
+Categories=Application;Qt;System;
+StartupNotify=true

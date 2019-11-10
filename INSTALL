@@ -1,0 +1,18 @@
+Extract and enter package source folder.
+
+Pacman Log Viewer & Qt4
+
+  mkdir build
+  cd build
+  cmake .. -DCMAKE_INSTALL_PREFIX=/usr
+  make
+  make install (as root)
+
+
+Pacman Log Viewer & Qt5
+
+  mkdir build
+  cd build
+  cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WITH_QT5=ON
+  make
+  make install (as root)
