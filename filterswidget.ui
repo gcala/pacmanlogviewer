@@ -81,7 +81,8 @@
           </property>
           <property name="icon">
            <iconset theme="list-add">
-            <normaloff>.</normaloff>.</iconset>
+            <normaloff/>
+           </iconset>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -95,7 +96,8 @@
           </property>
           <property name="icon">
            <iconset theme="view-refresh">
-            <normaloff>.</normaloff>.</iconset>
+            <normaloff/>
+           </iconset>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -109,7 +111,8 @@
           </property>
           <property name="icon">
            <iconset theme="list-remove">
-            <normaloff>.</normaloff>.</iconset>
+            <normaloff/>
+           </iconset>
           </property>
           <property name="checked">
            <bool>true</bool>
