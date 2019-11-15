@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>448</width>
-    <height>96</height>
+    <height>116</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="toggleFiltersButton">
+      <widget class="QToolButton" name="toggleFiltersButton">
        <property name="minimumSize">
         <size>
          <width>20</width>
@@ -40,14 +40,11 @@
        <property name="text">
         <string/>
        </property>
-       <property name="iconSize">
-        <size>
-         <width>4</width>
-         <height>4</height>
-        </size>
-       </property>
-       <property name="flat">
+       <property name="checkable">
         <bool>true</bool>
+       </property>
+       <property name="arrowType">
+        <enum>Qt::RightArrow</enum>
        </property>
       </widget>
      </item>
@@ -84,8 +81,7 @@
           </property>
           <property name="icon">
            <iconset theme="list-add">
-            <normaloff/>
-           </iconset>
+            <normaloff>.</normaloff>.</iconset>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -99,8 +95,7 @@
           </property>
           <property name="icon">
            <iconset theme="view-refresh">
-            <normaloff/>
-           </iconset>
+            <normaloff>.</normaloff>.</iconset>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -114,8 +109,7 @@
           </property>
           <property name="icon">
            <iconset theme="list-remove">
-            <normaloff/>
-           </iconset>
+            <normaloff>.</normaloff>.</iconset>
           </property>
           <property name="checked">
            <bool>true</bool>
