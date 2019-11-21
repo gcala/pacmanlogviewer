@@ -41,6 +41,10 @@ public:
     void setUpdatedCB(const bool &);
     bool removedChecked();
     void setRemovedCB(const bool &);
+    bool downgradedChecked();
+    void setDowngradedCB(const bool &);
+    bool reinstalledChecked();
+    void setReinstalledCB(const bool &);
     int dateRangeIndex();
     void setRangeIndex(const int &);
     QDate fromDate();

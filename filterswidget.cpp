@@ -35,6 +35,8 @@ FiltersWidget::FiltersWidget(QWidget *parent) :
     connect(ui->installedCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
     connect(ui->upgradedCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
     connect(ui->removedCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
+    connect(ui->downgradedCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
+    connect(ui->reinstalledCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
     connect(ui->fromDateEdit, SIGNAL(dateChanged(QDate)), this, SIGNAL(filtersChanged()));
     connect(ui->toDateEdit, SIGNAL(dateChanged(QDate)), this, SIGNAL(filtersChanged()));
     connect(ui->dateComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(dateRangeChanged(int)));
@@ -74,6 +76,26 @@ bool FiltersWidget::removedChecked()
 void FiltersWidget::setRemovedCB(const bool &checked)
 {
     ui->removedCheckBox->setChecked(checked);
+}
+
+bool FiltersWidget::downgradedChecked()
+{
+    return ui->downgradedCheckBox->isChecked();
+}
+
+void FiltersWidget::setDowngradedCB(const bool &checked)
+{
+    ui->downgradedCheckBox->setChecked(checked);
+}
+
+bool FiltersWidget::reinstalledChecked()
+{
+    return ui->reinstalledCheckBox->isChecked();
+}
+
+void FiltersWidget::setReinstalledCB(const bool &checked)
+{
+    ui->reinstalledCheckBox->setChecked(checked);
 }
 
 int FiltersWidget::dateRangeIndex()
