@@ -160,27 +160,44 @@ void Dialog::readPacmanLogFile(const QString &logFile)
 
     QStringList names;
 
-    const QRegExp rx("\\[([0-9-]+*-*)T*\\s*\\d+:\\d+:*\\d*\\+*\\d*\\]\\s\\[(PACMAN|ALPM)\\]\\s(installed|removed|upgraded)\\s([\\w-]+)\\s\\((.+)\\)");
+    const QRegExp rx("\\[(.+)\\]\\s\\[(PACMAN|ALPM|PACKAGEKIT)\\]\\s(installed|removed|upgraded)\\s([\\w-]+)\\s\\((.+)\\)");
 
     while(!file.atEnd()) {
         QString line = file.readLine();
         
-        if(line.contains("[PACKAGEKIT]"))
-            continue;
-        
         rx.indexIn(line);
-        if(rx.cap(3).isEmpty())
+        if(rx.cap(0).isEmpty())
             continue;
 
-        QDate date = QDate::fromString(rx.cap(1), "yyyy-MM-dd");
+        QString timestamp = rx.cap(1);
+        QString who = rx.cap(2);
+        QString op = rx.cap(3);
+        QString pkg = rx.cap(4);
+        QString ver = rx.cap(5);
 
-        names.append(rx.cap(4));
+        int T_ix = timestamp.indexOf("T");
+        if (T_ix != -1){
+            // New-style timestamp yyyy-MM-ddThh:mm:ss-zzzz. Strip offset and replace
+            // the T with a space:
+            timestamp.replace(T_ix, 1, " ");
+            timestamp.truncate(timestamp.lastIndexOf('-'));
+            
+        }
+        else{
+            // Old style timestamp yyyy-MM-dd hh:mm. Add seconds assuming zero past the
+            // minute:
+            timestamp.append(":00");
+        }
+
+        QDateTime datetime = QDateTime::fromString(timestamp, "yyyy-MM-dd hh:mm:ss");
+
+        names.append(pkg);
 
         query.prepare("INSERT INTO log (date,op,pkg,ver) VALUES(:date, :op, :pkg, :ver)");
-        query.bindValue( ":date", date.toString(Qt::ISODate) );
-        query.bindValue( ":op", rx.cap(3) );
-        query.bindValue( ":pkg", rx.cap(4) );
-        query.bindValue( ":ver", rx.cap(5) );
+        query.bindValue( ":date", datetime.toString(Qt::ISODate) );
+        query.bindValue( ":op", op );
+        query.bindValue( ":pkg", pkg );
+        query.bindValue( ":ver", ver );
         if(!query.exec())
             qDebug() << query.lastError();
     }
