@@ -170,17 +170,17 @@ void Dialog::readPacmanLogFile(const QString &logFile)
             continue;
 
         QString timestamp = rx.cap(1);
-        QString who = rx.cap(2);
-        QString op = rx.cap(3);
-        QString pkg = rx.cap(4);
-        QString ver = rx.cap(5);
+        const QString who = rx.cap(2);
+        const QString op = rx.cap(3);
+        const QString pkg = rx.cap(4);
+        const QString ver = rx.cap(5);
 
-        int T_ix = timestamp.indexOf("T");
+        const int T_ix = timestamp.indexOf("T");
         if (T_ix != -1){
             // New-style timestamp yyyy-MM-ddThh:mm:ss-zzzz. Strip offset and replace
             // the T with a space:
             timestamp.replace(T_ix, 1, " ");
-            timestamp.truncate(timestamp.lastIndexOf('-'));
+            timestamp = timestamp.left(19);
             
         }
         else{
@@ -189,12 +189,12 @@ void Dialog::readPacmanLogFile(const QString &logFile)
             timestamp.append(":00");
         }
 
-        QDateTime datetime = QDateTime::fromString(timestamp, "yyyy-MM-dd hh:mm:ss");
+        const QDateTime datetime = QDateTime::fromString(timestamp, "yyyy-MM-dd hh:mm:ss");
 
         names.append(pkg);
 
         query.prepare("INSERT INTO log (date,op,pkg,ver) VALUES(:date, :op, :pkg, :ver)");
-        query.bindValue( ":date", datetime.toString(Qt::ISODate) );
+        query.bindValue( ":date", datetime.toString("yyyy-MM-dd") );
         query.bindValue( ":op", op );
         query.bindValue( ":pkg", pkg );
         query.bindValue( ":ver", ver );
