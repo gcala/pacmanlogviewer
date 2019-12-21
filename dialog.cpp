@@ -160,7 +160,7 @@ void Dialog::readPacmanLogFile(const QString &logFile)
 
     QStringList names;
 
-    const QRegExp rx("\\[([0-9-]+)T*\\s*\\d+:\\d+:*\\d*\\+*\\d*\\]\\s\\[(PACMAN|ALPM)\\]\\s(installed|removed|upgraded)\\s([\\w-]+)\\s\\((.+)\\)");
+    const QRegExp rx("\\[([0-9-]+*-*)T*\\s*\\d+:\\d+:*\\d*\\+*\\d*\\]\\s\\[(PACMAN|ALPM)\\]\\s(installed|removed|upgraded)\\s([\\w-]+)\\s\\((.+)\\)");
 
     while(!file.atEnd()) {
         QString line = file.readLine();
