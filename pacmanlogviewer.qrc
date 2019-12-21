@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/images">
         <file>images/logo.png</file>
-        <file>images/draw-triangle2.png</file>
-        <file>images/draw-triangle4.png</file>
     </qresource>
 </RCC>
