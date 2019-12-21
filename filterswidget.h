@@ -49,7 +49,7 @@ public:
     void setToDate(const QDate &);
     
 private slots:
-    void on_toggleFiltersButton_clicked();
+    void filtersToggled(bool);
     void dateRangeChanged(int);
 
 signals:

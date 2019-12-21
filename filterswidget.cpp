@@ -31,14 +31,6 @@ FiltersWidget::FiltersWidget(QWidget *parent) :
     ui->toDateEdit->setEnabled(false);
     ui->fromDateEdit->setLocale(QLocale::system().name());
     ui->toDateEdit->setLocale(QLocale::system().name());
-    
-    // Qt5 uses wrong icon size
-    ui->toggleFiltersButton->setIconSize(QSize(16,16));
-
-    if(QIcon::hasThemeIcon(QLatin1String("draw-triangle2")))
-        ui->toggleFiltersButton->setIcon(QIcon::fromTheme(QLatin1String("draw-triangle2")));
-    else
-        ui->toggleFiltersButton->setIcon(QIcon::fromTheme(QLatin1String("go-down"), QIcon(QLatin1String(":/images/draw-triangle2.png"))));
 
     connect(ui->installedCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
     connect(ui->upgradedCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
@@ -46,6 +38,7 @@ FiltersWidget::FiltersWidget(QWidget *parent) :
     connect(ui->fromDateEdit, SIGNAL(dateChanged(QDate)), this, SIGNAL(filtersChanged()));
     connect(ui->toDateEdit, SIGNAL(dateChanged(QDate)), this, SIGNAL(filtersChanged()));
     connect(ui->dateComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(dateRangeChanged(int)));
+    connect(ui->toggleFiltersButton, SIGNAL(toggled(bool)), this, SLOT(filtersToggled(bool)));
 }
 
 FiltersWidget::~FiltersWidget()
@@ -113,21 +106,10 @@ void FiltersWidget::setToDate(const QDate &date)
     ui->toDateEdit->setDate(date);
 }
 
-void FiltersWidget::on_toggleFiltersButton_clicked()
+void FiltersWidget::filtersToggled(bool shown)
 {
-    ui->FiltersContainer->setHidden(!ui->FiltersContainer->isHidden());
-
-    if(ui->FiltersContainer->isHidden()) {
-        if(QIcon::hasThemeIcon(QLatin1String("draw-triangle2")))
-        ui->toggleFiltersButton->setIcon(QIcon::fromTheme(QLatin1String("draw-triangle2")));
-    else
-        ui->toggleFiltersButton->setIcon(QIcon::fromTheme(QLatin1String("go-down"), QIcon(QLatin1String(":/images/draw-triangle2.png"))));
-    } else {
-        if(QIcon::hasThemeIcon(QLatin1String("draw-triangle4")))
-        ui->toggleFiltersButton->setIcon(QIcon::fromTheme(QLatin1String("draw-triangle4")));
-    else
-        ui->toggleFiltersButton->setIcon(QIcon::fromTheme(QLatin1String("go-up"), QIcon(QLatin1String(":/images/draw-triangle4.png"))));
-    }
+    ui->FiltersContainer->setHidden(!shown);
+    ui->toggleFiltersButton->setArrowType(shown ? Qt::ArrowType::DownArrow : Qt::ArrowType::RightArrow);
 }
 
 void FiltersWidget::dateRangeChanged(int index)
