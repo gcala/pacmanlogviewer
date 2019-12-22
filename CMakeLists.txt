@@ -3,7 +3,7 @@ project(plv)
 # Information to update before to release this package.
 
 # pacmanlogviewer info
-SET(PLV_VERSION "1.4.1" )
+SET(PLV_VERSION "1.4.2" )
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-version.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-version.h )
 # ==================================================================================
 
