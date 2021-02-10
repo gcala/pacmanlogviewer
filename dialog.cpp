@@ -159,6 +159,8 @@ void Dialog::readPacmanLogFile(const QString &logFile)
     query.exec();
 
     QStringList names;
+    QString oldPkg;
+    QString oldVer;
 
     const QRegExp rx("\\[(.+)\\]\\s\\[(PACMAN|ALPM|PACKAGEKIT)\\]\\s(installed|removed|upgraded)\\s([\\w-]+)\\s\\((.+)\\)");
 
@@ -174,6 +176,12 @@ void Dialog::readPacmanLogFile(const QString &logFile)
         const QString op = rx.cap(3);
         const QString pkg = rx.cap(4);
         const QString ver = rx.cap(5);
+        
+        if(oldPkg == pkg && oldVer == ver)
+            continue;
+        
+        oldPkg = pkg;
+        oldVer = ver;
 
         const int T_ix = timestamp.indexOf("T");
         if (T_ix != -1){
