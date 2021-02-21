@@ -109,6 +109,8 @@ Dialog::~Dialog()
     settings.setValue("Filters/ShowInstalled", ui->FltrsWidget->installedChecked());
     settings.setValue("Filters/ShowUpgraded", ui->FltrsWidget->upgradedChecked());
     settings.setValue("Filters/ShowRemoved", ui->FltrsWidget->removedChecked());
+    settings.setValue("Filters/ShowDowngraded", ui->FltrsWidget->downgradedChecked());
+    settings.setValue("Filters/ShowReinstalled", ui->FltrsWidget->reinstalledChecked());
     settings.setValue("Filters/Interval", ui->FltrsWidget->dateRangeIndex());
     if(ui->FltrsWidget->dateRangeIndex() == 5) {
         settings.setValue("Filters/From", ui->FltrsWidget->fromDate());
@@ -162,7 +164,7 @@ void Dialog::readPacmanLogFile(const QString &logFile)
     QString oldPkg;
     QString oldVer;
 
-    const QRegExp rx("\\[(.+)\\]\\s\\[(PACMAN|ALPM|PACKAGEKIT)\\]\\s(installed|removed|upgraded)\\s([\\w-]+)\\s\\((.+)\\)");
+    const QRegExp rx("\\[(.+)\\]\\s\\[(PACMAN|ALPM|PACKAGEKIT)\\]\\s(installed|removed|upgraded|downgraded|reinstalled)\\s([\\w-]+)\\s\\((.+)\\)");
 
     while(!file.atEnd()) {
         QString line = file.readLine();
@@ -294,6 +296,16 @@ void Dialog::applyFilters()
 
     if(ui->FltrsWidget->removedChecked()) {
         filter += (isOR? " OR " : " AND (") + QString("op='removed'");
+        isOR = true;
+    }
+
+    if(ui->FltrsWidget->downgradedChecked()) {
+        filter += (isOR? " OR " : " AND (") + QString("op='downgraded'");
+        isOR = true;
+    }
+
+    if(ui->FltrsWidget->reinstalledChecked()) {
+        filter += (isOR? " OR " : " AND (") + QString("op='reinstalled'");
         isOR = true;
     }
 

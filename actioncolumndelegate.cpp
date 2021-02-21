@@ -46,9 +46,13 @@ void ActionColumnDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     if(action == "installed")
         icon = "list-add";
     else if(action == "upgraded")
-        icon = "view-refresh";
+        icon = "go-up";
     else if(action == "removed")
         icon = "list-remove";
+    else if(action == "downgraded")
+        icon = "go-down";
+    else if(action == "reinstalled")
+        icon = "view-refresh";
 
     if (option.state & QStyle::State_Selected) {
         painter->fillRect(option.rect, option.palette.highlight());

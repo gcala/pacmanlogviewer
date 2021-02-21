@@ -95,7 +95,7 @@
            <string>Upgraded</string>
           </property>
           <property name="icon">
-           <iconset theme="view-refresh">
+           <iconset theme="go-up">
             <normaloff/>
            </iconset>
           </property>
@@ -111,6 +111,36 @@
           </property>
           <property name="icon">
            <iconset theme="list-remove">
+            <normaloff/>
+           </iconset>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="downgradedCheckBox">
+          <property name="text">
+           <string>Downgraded</string>
+          </property>
+          <property name="icon">
+           <iconset theme="go-down">
+            <normaloff/>
+           </iconset>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="reinstalledCheckBox">
+          <property name="text">
+           <string>Reinstalled</string>
+          </property>
+          <property name="icon">
+           <iconset theme="view-refresh">
             <normaloff/>
            </iconset>
           </property>
