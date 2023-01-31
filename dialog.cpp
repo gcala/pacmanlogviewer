@@ -175,6 +175,7 @@ void Dialog::readPacmanLogFile(const QString &logFile)
 
     QSqlQuery query("DELETE FROM log");
     query.exec();
+    query.prepare("INSERT INTO log (date,op,pkg,ver) VALUES(:date, :op, :pkg, :ver)");
 
     QStringList names;
     QString oldPkg;
@@ -219,7 +220,6 @@ void Dialog::readPacmanLogFile(const QString &logFile)
 
         names.append(pkg);
 
-        query.prepare("INSERT INTO log (date,op,pkg,ver) VALUES(:date, :op, :pkg, :ver)");
         query.bindValue( ":date", datetime.toString("yyyy-MM-dd") );
         query.bindValue( ":op", op );
         query.bindValue( ":pkg", pkg );
