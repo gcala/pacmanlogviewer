@@ -202,6 +202,10 @@ void Dialog::readPacmanLogFile(const QString &logFile)
         oldPkg = pkg;
         oldVer = ver;
 
+        names.append(pkg);
+
+#define PARSE_TIME 0 // QDateTime operations are very slow and are not useful in the current implementation
+#if PARSE_TIME
         const int T_ix = timestamp.indexOf("T");
         if (T_ix != -1){
             // New-style timestamp yyyy-MM-ddThh:mm:ss-zzzz. Strip offset and replace
@@ -217,10 +221,12 @@ void Dialog::readPacmanLogFile(const QString &logFile)
         }
 
         const QDateTime datetime = QDateTime::fromString(timestamp, "yyyy-MM-dd hh:mm:ss");
-
-        names.append(pkg);
-
         query.bindValue( ":date", datetime.toString("yyyy-MM-dd") );
+#else
+        timestamp.truncate(10); // leave only yyyy-MM-dd in timestamp
+        query.bindValue( ":date", timestamp );
+#endif
+
         query.bindValue( ":op", op );
         query.bindValue( ":pkg", pkg );
         query.bindValue( ":ver", ver );
