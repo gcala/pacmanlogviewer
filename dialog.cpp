@@ -25,6 +25,7 @@
 #include "datecolumndelegate.h"
 #include "actioncolumndelegate.h"
 
+#include <QElapsedTimer>
 #include <QSqlTableModel>
 #include <QDebug>
 
@@ -168,7 +169,10 @@ void Dialog::readPacmanLogFile(const QString &logFile)
         qDebug() << "can't open log file : " << file.errorString();
         return;
     }
-    
+
+    QElapsedTimer timer;
+    timer.start();
+
     QSqlQuery query("DELETE FROM log");
     query.exec();
 
@@ -238,6 +242,8 @@ void Dialog::readPacmanLogFile(const QString &logFile)
     
     ui->tableView->hideColumn(0);
     ui->tableView->show();
+
+    qDebug() << "readPacmanLogFile() took" << timer.elapsed() << "ms";
 }
 
 void Dialog::applyFilters()
