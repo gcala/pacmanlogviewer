@@ -138,6 +138,8 @@ void Dialog::loadSettings()
     ui->FltrsWidget->setInstallCB(settings.value("Filters/ShowInstalled", true).toBool());
     ui->FltrsWidget->setUpdatedCB(settings.value("Filters/ShowUpgraded", true).toBool());
     ui->FltrsWidget->setRemovedCB(settings.value("Filters/ShowRemoved", true).toBool());
+    ui->FltrsWidget->setDowngradedCB(settings.value("Filters/ShowDowngraded", true).toBool());
+    ui->FltrsWidget->setReinstalledCB(settings.value("Filters/ShowReinstalled", true).toBool());
     ui->FltrsWidget->setRangeIndex(settings.value("Filters/Interval", 0).toInt());
     if(ui->FltrsWidget->dateRangeIndex() == 5) { // Custom range
         ui->FltrsWidget->setFromDate(settings.value("Filters/From", oldestDate).value<QDate>());
@@ -312,7 +314,7 @@ void Dialog::applyFilters()
     if(isOR)
         filter += ")";
     else
-        filter += "AND (op!='installed' AND op!='upgraded' AND op!='removed')";
+        filter += "AND FALSE";
 
     model->setFilter(filter);
 }

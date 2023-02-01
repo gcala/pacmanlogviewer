@@ -23,7 +23,6 @@ SOURCES += main.cpp\
 
 HEADERS  += dialog.h \
     connection.h \
-    defines.h \
     filterswidget.h \
     datecolumndelegate.h \
     actioncolumndelegate.h \
