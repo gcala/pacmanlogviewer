@@ -35,6 +35,11 @@ Dialog::Dialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QAction *const quitAction = new QAction(this);
+    quitAction->setShortcuts(QKeySequence::Quit);
+    connect(quitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
+    addAction(quitAction);
+
     ui->tableView->setSortingEnabled(true);
 
     QList<QPushButton *> buttonList = this->findChildren<QPushButton *>();
