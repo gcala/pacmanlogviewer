@@ -109,6 +109,8 @@ Dialog::~Dialog()
     settings.setValue("Filters/ShowInstalled", ui->FltrsWidget->installedChecked());
     settings.setValue("Filters/ShowUpgraded", ui->FltrsWidget->upgradedChecked());
     settings.setValue("Filters/ShowRemoved", ui->FltrsWidget->removedChecked());
+    settings.setValue("Filters/ShowDowngraded", ui->FltrsWidget->downgradedChecked());
+    settings.setValue("Filters/ShowReinstalled", ui->FltrsWidget->reinstalledChecked());
     settings.setValue("Filters/Interval", ui->FltrsWidget->dateRangeIndex());
     if(ui->FltrsWidget->dateRangeIndex() == 5) {
         settings.setValue("Filters/From", ui->FltrsWidget->fromDate());
@@ -136,6 +138,8 @@ void Dialog::loadSettings()
     ui->FltrsWidget->setInstallCB(settings.value("Filters/ShowInstalled", true).toBool());
     ui->FltrsWidget->setUpdatedCB(settings.value("Filters/ShowUpgraded", true).toBool());
     ui->FltrsWidget->setRemovedCB(settings.value("Filters/ShowRemoved", true).toBool());
+    ui->FltrsWidget->setDowngradedCB(settings.value("Filters/ShowDowngraded", true).toBool());
+    ui->FltrsWidget->setReinstalledCB(settings.value("Filters/ShowReinstalled", true).toBool());
     ui->FltrsWidget->setRangeIndex(settings.value("Filters/Interval", 0).toInt());
     if(ui->FltrsWidget->dateRangeIndex() == 5) { // Custom range
         ui->FltrsWidget->setFromDate(settings.value("Filters/From", oldestDate).value<QDate>());
@@ -162,7 +166,7 @@ void Dialog::readPacmanLogFile(const QString &logFile)
     QString oldPkg;
     QString oldVer;
 
-    const QRegExp rx("\\[(.+)\\]\\s\\[(PACMAN|ALPM|PACKAGEKIT)\\]\\s(installed|removed|upgraded)\\s([\\w-]+)\\s\\((.+)\\)");
+    const QRegExp rx("\\[(.+)\\]\\s\\[(PACMAN|ALPM|PACKAGEKIT)\\]\\s(installed|removed|upgraded|downgraded|reinstalled)\\s([\\w-]+)\\s\\((.+)\\)");
 
     while(!file.atEnd()) {
         QString line = file.readLine();
@@ -297,10 +301,20 @@ void Dialog::applyFilters()
         isOR = true;
     }
 
+    if(ui->FltrsWidget->downgradedChecked()) {
+        filter += (isOR? " OR " : " AND (") + QString("op='downgraded'");
+        isOR = true;
+    }
+
+    if(ui->FltrsWidget->reinstalledChecked()) {
+        filter += (isOR? " OR " : " AND (") + QString("op='reinstalled'");
+        isOR = true;
+    }
+
     if(isOR)
         filter += ")";
     else
-        filter += "AND (op!='installed' AND op!='upgraded' AND op!='removed')";
+        filter += "AND FALSE";
 
     model->setFilter(filter);
 }
