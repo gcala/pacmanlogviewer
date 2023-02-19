@@ -1,3 +1,4 @@
 build/ 
 *.pro.user
 *.kdev4
+*.txt.user
