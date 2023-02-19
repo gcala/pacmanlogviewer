@@ -21,6 +21,7 @@
 #include "ui_dialog.h"
 #include "aboutdialog.h"
 
+#include "config.h"
 #include "connection.h"
 #include "datecolumndelegate.h"
 #include "actioncolumndelegate.h"
@@ -36,6 +37,7 @@ Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
+    setupTranslations();
     ui->setupUi(this);
 
     QAction *const quitAction = new QAction(this);
@@ -156,6 +158,72 @@ void Dialog::loadSettings()
     else {
         ui->FltrsWidget->setFromDate(oldestDate);
         ui->FltrsWidget->setToDate(QDate::currentDate());
+    }
+}
+
+QString substLang(const QString &lang)
+{
+    // Map the more appropriate script codes
+    // to country codes as used by Qt and
+    // transifex translation conventions.
+    
+    // Simplified Chinese
+    if (lang == QLatin1String("zh_Hans")) {
+        return QLatin1String("zh_CN");
+    }
+    // Traditional Chinese
+    if (lang == QLatin1String("zh_Hant")) {
+        return QLatin1String("zh_TW");
+    }
+    return lang;
+}
+
+void Dialog::setupTranslations()
+{
+    const QStringList uiLanguages = QLocale::system().uiLanguages();
+    
+    auto *translator = new QTranslator(this);
+    auto *qtTranslator = new QTranslator(this);
+    auto *qtkeychainTranslator = new QTranslator(this);
+    
+    for (QString lang : qAsConst(uiLanguages)) {
+        lang.replace(QLatin1Char('-'), QLatin1Char('_')); // work around QTBUG-25973
+        lang = substLang(lang);
+        const QString trPath = QString::fromLatin1(SHAREDIR "/" APPLICATION_EXECUTABLE "/i18n/");
+        const QString trFile = QLatin1String("pacmanlogviewer_") + lang;
+        if (translator->load(trFile, trPath) || lang.startsWith(QLatin1String("en"))) {
+            // Permissive approach: Qt and keychain translations
+            // may be missing, but Qt translations must be there in order
+            // for us to accept the language. Otherwise, we try with the next.
+            // "en" is an exception as it is the default language and may not
+            // have a translation file provided.
+            qDebug() << "Using" << lang << "translation";
+            setProperty("ui_lang", lang);
+            const QString qtTrPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+            const QString qtTrFile = QLatin1String("qt_") + lang;
+            const QString qtBaseTrFile = QLatin1String("qtbase_") + lang;
+            if (!qtTranslator->load(qtTrFile, qtTrPath)) {
+                if (!qtTranslator->load(qtTrFile, trPath)) {
+                    if (!qtTranslator->load(qtBaseTrFile, qtTrPath)) {
+                        qtTranslator->load(qtBaseTrFile, trPath);
+                    }
+                }
+            }
+            const QString qtkeychainTrFile = QLatin1String("qtkeychain_") + lang;
+            if (!qtkeychainTranslator->load(qtkeychainTrFile, qtTrPath)) {
+                qtkeychainTranslator->load(qtkeychainTrFile, trPath);
+            }
+            if (!translator->isEmpty())
+                QCoreApplication::installTranslator(translator);
+            if (!qtTranslator->isEmpty())
+                QCoreApplication::installTranslator(qtTranslator);
+            if (!qtkeychainTranslator->isEmpty())
+                QCoreApplication::installTranslator(qtkeychainTranslator);
+            break;
+        }
+        if (property("ui_lang").isNull()) {
+            setProperty("ui_lang", "C");
+        }
     }
 }
 

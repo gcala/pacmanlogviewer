@@ -1,10 +1,12 @@
 project(plv)
 # ==================================================================================
 # Information to update before to release this package.
-
-# pacmanlogviewer info
+include(GNUInstallDirs)
 SET(PLV_VERSION "1.4.3" )
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-version.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-version.h )
+set( APPLICATION_EXECUTABLE "plv" )
+set( SHAREDIR ${CMAKE_INSTALL_FULL_DATADIR} )
+configure_file(config-version.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-version.h )
+configure_file(config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 # ==================================================================================
 
 cmake_minimum_required(VERSION 3.14)

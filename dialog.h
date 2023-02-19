@@ -58,6 +58,7 @@ private:
 
     void loadSettings();
     void readPacmanLogFile(const QString &logFile);
+    void setupTranslations();
 };
 
 #endif // DIALOG_H

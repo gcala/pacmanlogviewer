@@ -27,16 +27,6 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    QTranslator qtTranslator;
-    qtTranslator.load("qt_" + QLocale::system().name().split('_').first(),
-                      QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    a.installTranslator(&qtTranslator);
-
-    QTranslator appTranslator;
-    appTranslator.load("pacmanlogviewer_" + QLocale::system().name().split('_').first(),
-                       QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    a.installTranslator(&appTranslator);
-
     Dialog w;
     w.show();
     
