@@ -25,9 +25,17 @@
 #include "datecolumndelegate.h"
 #include "actioncolumndelegate.h"
 
+#include <QElapsedTimer>
 #include <QSqlTableModel>
-#include <QtWidgets>
 #include <QDebug>
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+#include <QRegularExpression>
+#include <QtWidgets>
+#else
+#include <QRegExp>
+#include <QtGui>
+#endif
 
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
@@ -163,19 +171,38 @@ void Dialog::readPacmanLogFile(const QString &logFile)
         qDebug() << "can't open log file : " << file.errorString();
         return;
     }
-    
+
+    QElapsedTimer timer;
+    timer.start();
+
     QSqlQuery query("DELETE FROM log");
     query.exec();
+    query.prepare("INSERT INTO log (date,op,pkg,ver) VALUES(:date, :op, :pkg, :ver)");
 
     QStringList names;
     QString oldPkg;
     QString oldVer;
 
-    const QRegExp rx("\\[(.+)\\]\\s\\[(PACMAN|ALPM|PACKAGEKIT)\\]\\s(installed|removed|upgraded|downgraded|reinstalled)\\s([\\w-]+)\\s\\((.+)\\)");
+    const QString regexString("\\[(.+)\\]\\s\\[(PACMAN|ALPM|PACKAGEKIT)\\]\\s(installed|removed|upgraded|downgraded|reinstalled)\\s([\\w-]+)\\s\\((.+)\\)");
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+    const QRegularExpression regex(regexString);
+#else
+    const QRegExp rx(regexString);
+#endif
 
     while(!file.atEnd()) {
         QString line = file.readLine();
-        
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+        const auto match = regex.match(line);
+        if (!match.hasMatch())
+            continue;
+        auto timestamp = match.captured(1);
+        // (unused) const auto who = match.captured(2);
+        const auto op = match.captured(3);
+        const auto pkg = match.captured(4);
+        const auto ver = match.captured(5);
+#else
         rx.indexIn(line);
         if(rx.cap(0).isEmpty())
             continue;
@@ -185,6 +212,7 @@ void Dialog::readPacmanLogFile(const QString &logFile)
         const QString op = rx.cap(3);
         const QString pkg = rx.cap(4);
         const QString ver = rx.cap(5);
+#endif
         
         if(oldPkg == pkg && oldVer == ver)
             continue;
@@ -192,6 +220,10 @@ void Dialog::readPacmanLogFile(const QString &logFile)
         oldPkg = pkg;
         oldVer = ver;
 
+        names.append(pkg);
+
+#define PARSE_TIME 0 // QDateTime operations are very slow and are not useful in the current implementation
+#if PARSE_TIME
         const int T_ix = timestamp.indexOf("T");
         if (T_ix != -1){
             // New-style timestamp yyyy-MM-ddThh:mm:ss-zzzz. Strip offset and replace
@@ -207,11 +239,12 @@ void Dialog::readPacmanLogFile(const QString &logFile)
         }
 
         const QDateTime datetime = QDateTime::fromString(timestamp, "yyyy-MM-dd hh:mm:ss");
-
-        names.append(pkg);
-
-        query.prepare("INSERT INTO log (date,op,pkg,ver) VALUES(:date, :op, :pkg, :ver)");
         query.bindValue( ":date", datetime.toString("yyyy-MM-dd") );
+#else
+        timestamp.truncate(10); // leave only yyyy-MM-dd in timestamp
+        query.bindValue( ":date", timestamp );
+#endif
+
         query.bindValue( ":op", op );
         query.bindValue( ":pkg", pkg );
         query.bindValue( ":ver", ver );
@@ -233,6 +266,8 @@ void Dialog::readPacmanLogFile(const QString &logFile)
     
     ui->tableView->hideColumn(0);
     ui->tableView->show();
+
+    qDebug() << "readPacmanLogFile() took" << timer.elapsed() << "ms";
 }
 
 void Dialog::applyFilters()
