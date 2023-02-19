@@ -29,13 +29,8 @@
 #include <QSqlTableModel>
 #include <QDebug>
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 #include <QRegularExpression>
 #include <QtWidgets>
-#else
-#include <QRegExp>
-#include <QtGui>
-#endif
 
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
@@ -184,16 +179,12 @@ void Dialog::readPacmanLogFile(const QString &logFile)
     QString oldVer;
 
     const QString regexString("\\[(.+)\\]\\s\\[(PACMAN|ALPM|PACKAGEKIT)\\]\\s(installed|removed|upgraded|downgraded|reinstalled)\\s([\\w-]+)\\s\\((.+)\\)");
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+
     const QRegularExpression regex(regexString);
-#else
-    const QRegExp rx(regexString);
-#endif
 
     while(!file.atEnd()) {
         QString line = file.readLine();
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
         const auto match = regex.match(line);
         if (!match.hasMatch())
             continue;
@@ -202,17 +193,6 @@ void Dialog::readPacmanLogFile(const QString &logFile)
         const auto op = match.captured(3);
         const auto pkg = match.captured(4);
         const auto ver = match.captured(5);
-#else
-        rx.indexIn(line);
-        if(rx.cap(0).isEmpty())
-            continue;
-
-        QString timestamp = rx.cap(1);
-        const QString who = rx.cap(2);
-        const QString op = rx.cap(3);
-        const QString pkg = rx.cap(4);
-        const QString ver = rx.cap(5);
-#endif
         
         if(oldPkg == pkg && oldVer == ver)
             continue;

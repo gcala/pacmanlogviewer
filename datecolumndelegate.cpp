@@ -50,8 +50,7 @@ void DateColumnDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         painter->setPen(option.palette.text().color());
     }
 
-    QLocale locale;
-    QLocale::setDefault(locale.name());
+    QLocale::setDefault(QLocale::system());
 
-    painter->drawText(textRect, Qt::AlignVCenter, locale.toString(date, QLocale::LongFormat));
+    painter->drawText(textRect, Qt::AlignVCenter, QLocale::system().toString(date, QLocale::LongFormat));
 }

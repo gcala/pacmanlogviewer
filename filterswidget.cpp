@@ -29,8 +29,8 @@ FiltersWidget::FiltersWidget(QWidget *parent) :
 
     ui->fromDateEdit->setEnabled(false);
     ui->toDateEdit->setEnabled(false);
-    ui->fromDateEdit->setLocale(QLocale::system().name());
-    ui->toDateEdit->setLocale(QLocale::system().name());
+    ui->fromDateEdit->setLocale(QLocale::system());
+    ui->toDateEdit->setLocale(QLocale::system());
 
     connect(ui->installedCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
     connect(ui->upgradedCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
