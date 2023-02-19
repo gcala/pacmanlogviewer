@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="en_US">
+<TS version="2.1" language="en_US">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -28,7 +28,7 @@
         <source>Author:</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../aboutdialog.ui" line="112"/>
         <source>Giuseppe Calà</source>
         <translation type="unfinished"></translation>
@@ -45,7 +45,7 @@
     </message>
     <message>
         <location filename="../aboutdialog.ui" line="150"/>
-        <source>GPL</source>
+        <source>GPL v3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -77,47 +77,47 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="57"/>
+        <location filename="../dialog.cpp" line="64"/>
         <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="58"/>
+        <location filename="../dialog.cpp" line="65"/>
         <source>Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="59"/>
+        <location filename="../dialog.cpp" line="66"/>
         <source>Package</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="60"/>
+        <location filename="../dialog.cpp" line="67"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="70"/>
+        <location filename="../dialog.cpp" line="77"/>
         <source>&amp;Reload default log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="71"/>
+        <location filename="../dialog.cpp" line="78"/>
         <source>&amp;Load custom log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="72"/>
+        <location filename="../dialog.cpp" line="79"/>
         <source>&amp;About Pacman Log Viewer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="286"/>
+        <location filename="../dialog.cpp" line="418"/>
         <source>Open Pacman Log File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="288"/>
+        <location filename="../dialog.cpp" line="420"/>
         <source>Logs (*.log)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -135,57 +135,67 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="83"/>
+        <location filename="../filterswidget.ui" line="80"/>
         <source>Installed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="98"/>
+        <location filename="../filterswidget.ui" line="95"/>
         <source>Upgraded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="113"/>
+        <location filename="../filterswidget.ui" line="110"/>
         <source>Removed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="146"/>
+        <location filename="../filterswidget.ui" line="125"/>
+        <source>Downgraded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../filterswidget.ui" line="140"/>
+        <source>Reinstalled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../filterswidget.ui" line="173"/>
         <source>Any time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="151"/>
+        <location filename="../filterswidget.ui" line="178"/>
         <source>Today</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="156"/>
+        <location filename="../filterswidget.ui" line="183"/>
         <source>Past 2 days</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="161"/>
+        <location filename="../filterswidget.ui" line="188"/>
         <source>Past week</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="166"/>
+        <location filename="../filterswidget.ui" line="193"/>
         <source>Past month</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="171"/>
+        <location filename="../filterswidget.ui" line="198"/>
         <source>Custom range...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="185"/>
+        <location filename="../filterswidget.ui" line="212"/>
         <source>From:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="201"/>
+        <location filename="../filterswidget.ui" line="228"/>
         <source>To:</source>
         <translation type="unfinished"></translation>
     </message>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="it_IT">
+<TS version="2.1" language="it_IT">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -21,14 +21,14 @@
     <message>
         <location filename="../aboutdialog.ui" line="93"/>
         <source>Inspect pacman log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ispeziona il file di log di pacman</translation>
     </message>
     <message>
         <location filename="../aboutdialog.ui" line="100"/>
         <source>Author:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Autore:</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../aboutdialog.ui" line="112"/>
         <source>Giuseppe Calà</source>
         <translation type="unfinished"></translation>
@@ -41,11 +41,11 @@
     <message>
         <location filename="../aboutdialog.ui" line="140"/>
         <source>License:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Licenza:</translation>
     </message>
     <message>
         <location filename="../aboutdialog.ui" line="150"/>
-        <source>GPL</source>
+        <source>GPL v3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -77,47 +77,47 @@
         <translation>Corrispondenza esatta</translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="57"/>
+        <location filename="../dialog.cpp" line="64"/>
         <source>Date</source>
         <translation>Data</translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="58"/>
+        <location filename="../dialog.cpp" line="65"/>
         <source>Action</source>
         <translation>Azione</translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="59"/>
+        <location filename="../dialog.cpp" line="66"/>
         <source>Package</source>
         <translation>Pacchetto</translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="60"/>
+        <location filename="../dialog.cpp" line="67"/>
         <source>Version</source>
         <translation>Versione</translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="70"/>
+        <location filename="../dialog.cpp" line="77"/>
         <source>&amp;Reload default log</source>
         <translation>&amp;Ricarica registro predefinito</translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="71"/>
+        <location filename="../dialog.cpp" line="78"/>
         <source>&amp;Load custom log</source>
         <translation>&amp;Carica registro personalizzato</translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="72"/>
+        <location filename="../dialog.cpp" line="79"/>
         <source>&amp;About Pacman Log Viewer</source>
         <translation>&amp;Informazioni su Pacman Log Viewer</translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="286"/>
+        <location filename="../dialog.cpp" line="418"/>
         <source>Open Pacman Log File</source>
         <translation>Apri il registro di pacman</translation>
     </message>
     <message>
-        <location filename="../dialog.cpp" line="288"/>
+        <location filename="../dialog.cpp" line="420"/>
         <source>Logs (*.log)</source>
         <translation>Log (*.log)</translation>
     </message>
@@ -135,57 +135,67 @@
         <translation type="unfinished">Filtri aggiuntivi</translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="83"/>
+        <location filename="../filterswidget.ui" line="80"/>
         <source>Installed</source>
         <translation type="unfinished">Installati</translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="98"/>
+        <location filename="../filterswidget.ui" line="95"/>
         <source>Upgraded</source>
         <translation type="unfinished">Aggiornati</translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="113"/>
+        <location filename="../filterswidget.ui" line="110"/>
         <source>Removed</source>
         <translation type="unfinished">Rimossi</translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="146"/>
+        <location filename="../filterswidget.ui" line="125"/>
+        <source>Downgraded</source>
+        <translation type="unfinished">Versione precedente</translation>
+    </message>
+    <message>
+        <location filename="../filterswidget.ui" line="140"/>
+        <source>Reinstalled</source>
+        <translation type="unfinished">Reinstallati</translation>
+    </message>
+    <message>
+        <location filename="../filterswidget.ui" line="173"/>
         <source>Any time</source>
         <translation type="unfinished">Qualsiasi data</translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="151"/>
+        <location filename="../filterswidget.ui" line="178"/>
         <source>Today</source>
         <translation type="unfinished">Oggi</translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="156"/>
+        <location filename="../filterswidget.ui" line="183"/>
         <source>Past 2 days</source>
         <translation type="unfinished">Ultimi 2 giorni</translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="161"/>
+        <location filename="../filterswidget.ui" line="188"/>
         <source>Past week</source>
         <translation type="unfinished">Ultima settimana</translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="166"/>
+        <location filename="../filterswidget.ui" line="193"/>
         <source>Past month</source>
         <translation type="unfinished">Ultimo mese</translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="171"/>
+        <location filename="../filterswidget.ui" line="198"/>
         <source>Custom range...</source>
         <translation type="unfinished">Intervallo di date...</translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="185"/>
+        <location filename="../filterswidget.ui" line="212"/>
         <source>From:</source>
         <translation type="unfinished">Da:</translation>
     </message>
     <message>
-        <location filename="../filterswidget.ui" line="201"/>
+        <location filename="../filterswidget.ui" line="228"/>
         <source>To:</source>
         <translation type="unfinished">A:</translation>
     </message>
