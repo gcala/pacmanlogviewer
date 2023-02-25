@@ -13,7 +13,6 @@
 #include "datecolumndelegate.h"
 #include "actioncolumndelegate.h"
 
-#include <QElapsedTimer>
 #include <QSqlTableModel>
 #include <QDebug>
 
@@ -34,8 +33,8 @@ Dialog::Dialog(QWidget *parent) :
 
     ui->tableView->setSortingEnabled(true);
 
-    QList<QPushButton *> buttonList = this->findChildren<QPushButton *>();
-    foreach(QPushButton *pb, buttonList) {
+    const auto buttonList = this->findChildren<QPushButton *>();
+    for(auto pb : buttonList) {
         pb->setDefault( false );
         pb->setAutoDefault( false );
     }
@@ -46,31 +45,40 @@ Dialog::Dialog(QWidget *parent) :
     QSqlQuery query("CREATE TABLE log (id INTEGER PRIMARY KEY, date TEXT, op TEXT, pkg TEXT, ver TEXT)");
     query.exec();
     
-    model = new QSqlTableModel;
-    model->setTable("log");
-    model->setHeaderData( 1, Qt::Horizontal, tr("Date") );
-    model->setHeaderData( 2, Qt::Horizontal, tr("Action") );
-    model->setHeaderData( 3, Qt::Horizontal, tr("Package") );
-    model->setHeaderData( 4, Qt::Horizontal, tr("Version") );
+    m_model = new QSqlTableModel;
+    m_model->setTable("log");
+    m_model->setHeaderData( 1, Qt::Horizontal, tr("Date") );
+    m_model->setHeaderData( 2, Qt::Horizontal, tr("Action") );
+    m_model->setHeaderData( 3, Qt::Horizontal, tr("Package") );
+    m_model->setHeaderData( 4, Qt::Horizontal, tr("Version") );
 
-    ui->tableView->setModel(model);
+    ui->tableView->setModel(m_model);
     
-    pkgNameCompleter = new PkgNameCompleter(ui->namesLineEdit);
-    pkgNameCompleter->setWidget(ui->namesLineEdit);
-    connect(ui->namesLineEdit, SIGNAL(text_changed(QStringList,QString)), pkgNameCompleter, SLOT(update(QStringList,QString)));
-    connect(pkgNameCompleter, SIGNAL(activated(QString)), ui->namesLineEdit, SLOT(complete_text(QString)));
+    m_pkgNameCompleter = new PkgNameCompleter(ui->namesLineEdit);
+    m_pkgNameCompleter->setWidget(ui->namesLineEdit);
+    connect(ui->namesLineEdit, QOverload<QStringList, QString>::of(&PkgNamesLineEdit::text_changed), m_pkgNameCompleter, &PkgNameCompleter::update);
+    connect(m_pkgNameCompleter,  QOverload<const QString &>::of(&PkgNameCompleter::activated), ui->namesLineEdit, &PkgNamesLineEdit::complete_text);
     
     QMenu *menu = new QMenu(this);
-    reloadDefaultLog = new QAction(QIcon::fromTheme("view-refresh"), tr("&Reload default log"), this);
-    loadCustomLog = new QAction(QIcon::fromTheme("document-open"), tr("&Load custom log"), this);
-    openAboutDialog = new QAction(QIcon::fromTheme("help-about"), tr("&About Pacman Log Viewer"), this);
-    connect(reloadDefaultLog, SIGNAL(triggered()), SLOT(loadDefaultLog()));
-    connect(openAboutDialog, SIGNAL(triggered()), SLOT(showAboutDialog()));
-    connect(loadCustomLog, SIGNAL(triggered()), SLOT(selectCustomLogFile()));
-    menu->addAction(reloadDefaultLog);
-    menu->addAction(loadCustomLog);
+    m_reloadAction = new QAction(QIcon::fromTheme("view-refresh"), tr("&Reload default log"), this);
+    m_customLogAction = new QAction(QIcon::fromTheme("document-open"), tr("&Load custom log"), this);
+    m_aboutAction = new QAction(QIcon::fromTheme("help-about"), tr("&About Pacman Log Viewer"), this);
+
+    connect(m_reloadAction, &QAction::triggered, this, [=] () {
+        readPacmanLogFile("/var/log/pacman.log");
+    });
+
+    connect(m_aboutAction, &QAction::triggered, this, [=] () {
+        AboutDialog aboutDialog(this);
+        aboutDialog.exec();
+    });
+
+    connect(m_customLogAction, &QAction::triggered, this, &Dialog::selectCustomLogFile);
+
+    menu->addAction(m_reloadAction);
+    menu->addAction(m_customLogAction);
     menu->addSeparator();
-    menu->addAction(openAboutDialog);
+    menu->addAction(m_aboutAction);
     ui->toolButton->setMenu(menu);
 
     ui->tableView->setEditTriggers(QTableView::NoEditTriggers);
@@ -81,11 +89,11 @@ Dialog::Dialog(QWidget *parent) :
     ActionColumnDelegate *actionDelegate = new ActionColumnDelegate;
     ui->tableView->setItemDelegateForColumn(2,actionDelegate);
 
-    connect(ui->namesLineEdit, SIGNAL(textChanged(QString)), this, SLOT(applyFilters()));
-    connect(ui->FltrsWidget, SIGNAL(filtersChanged()), this, SLOT(applyFilters()));
-    connect(ui->exactMatchCheckBox, SIGNAL(toggled(bool)), this, SLOT(applyFilters()));
+    connect(ui->namesLineEdit, &QLineEdit::textChanged, this, &Dialog::applyFilters);
+    connect(ui->FltrsWidget, &FiltersWidget::filtersChanged, this, &Dialog::applyFilters);
+    connect(ui->exactMatchCheckBox, &QCheckBox::toggled, this, &Dialog::applyFilters);
 
-    loadDefaultLog();
+    readPacmanLogFile("/var/log/pacman.log");
     loadSettings();
 }
 
@@ -139,11 +147,11 @@ void Dialog::loadSettings()
     ui->FltrsWidget->setReinstalledCB(settings.value("Filters/ShowReinstalled", true).toBool());
     ui->FltrsWidget->setRangeIndex(settings.value("Filters/Interval", 0).toInt());
     if(ui->FltrsWidget->dateRangeIndex() == 5) { // Custom range
-        ui->FltrsWidget->setFromDate(settings.value("Filters/From", oldestDate).value<QDate>());
+        ui->FltrsWidget->setFromDate(settings.value("Filters/From", m_oldestDate).value<QDate>());
         ui->FltrsWidget->setToDate(settings.value("Filters/To", QDate::currentDate()).value<QDate>());
     }
     else {
-        ui->FltrsWidget->setFromDate(oldestDate);
+        ui->FltrsWidget->setFromDate(m_oldestDate);
         ui->FltrsWidget->setToDate(QDate::currentDate());
     }
 }
@@ -186,7 +194,11 @@ void Dialog::setupTranslations()
             // have a translation file provided.
             qDebug() << "Using" << lang << "translation";
             setProperty("ui_lang", lang);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             const QString qtTrPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+#else
+            const QString qtTrPath = QLibraryInfo::path(QLibraryInfo::TranslationsPath);
+#endif
             const QString qtTrFile = QLatin1String("qt_") + lang;
             const QString qtBaseTrFile = QLatin1String("qtbase_") + lang;
             if (!qtTranslator->load(qtTrFile, qtTrPath)) {
@@ -225,9 +237,9 @@ void Dialog::readPacmanLogFile(const QString &logFile)
     QElapsedTimer timer;
     timer.start();
 
-    QSqlQuery query("DELETE FROM log");
+    QSqlQuery query(QLatin1String("DELETE FROM log"));
     query.exec();
-    query.prepare("INSERT INTO log (date,op,pkg,ver) VALUES(:date, :op, :pkg, :ver)");
+    query.prepare(QLatin1String("INSERT INTO log (date,op,pkg,ver) VALUES(:date, :op, :pkg, :ver)"));
 
     QStringList names;
     QString oldPkg;
@@ -235,11 +247,10 @@ void Dialog::readPacmanLogFile(const QString &logFile)
 
     const QString regexString("\\[(.+)\\]\\s\\[(PACMAN|ALPM|PACKAGEKIT)\\]\\s(installed|removed|upgraded|downgraded|reinstalled)\\s([\\w-]+)\\s\\((.+)\\)");
 
-    const QRegularExpression regex(regexString);
+    static QRegularExpression regex(regexString);
 
     while(!file.atEnd()) {
-        QString line = file.readLine();
-
+        const auto line = file.readLine();
         const auto match = regex.match(line);
         if (!match.hasMatch())
             continue;
@@ -287,22 +298,20 @@ void Dialog::readPacmanLogFile(const QString &logFile)
             qDebug() << query.lastError();
     }
     
-    model->select();
+    m_model->select();
 
     // Populate completer
     names.removeDuplicates();
 
     if(!names.isEmpty()) {
-        pkgNameCompleter->setTags(names);
-        pkgNameCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+        m_pkgNameCompleter->setTags(names);
+        m_pkgNameCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     }
 
-    oldestDate = model->data(model->index(0,1)).toDate();
+    m_oldestDate = m_model->data(m_model->index(0,1)).toDate();
     
     ui->tableView->hideColumn(0);
     ui->tableView->show();
-
-    qDebug() << "readPacmanLogFile() took" << timer.elapsed() << "ms";
 }
 
 void Dialog::applyFilters()
@@ -333,7 +342,7 @@ void Dialog::applyFilters()
         break;
     }
 
-    QStringList pkgNames(ui->namesLineEdit->text().split(","));
+    const QStringList pkgNames(ui->namesLineEdit->text().split(","));
 
     if(pkgNames.count() <=1) {
         if(ui->namesLineEdit->text().isEmpty())
@@ -346,7 +355,7 @@ void Dialog::applyFilters()
     else if(pkgNames.count() > 1) {
         filter += "(";
         bool isFirst = true;
-        foreach(QString pkgName, pkgNames) {
+        for(const auto &pkgName : pkgNames) {
             if(pkgName.trimmed().isEmpty())
                 continue;
             if(ui->exactMatchCheckBox->isChecked()) {
@@ -391,31 +400,20 @@ void Dialog::applyFilters()
     else
         filter += "AND FALSE";
 
-    model->setFilter(filter);
-}
-
-void Dialog::showAboutDialog()
-{
-    AboutDialog aboutDialog(this);
-    aboutDialog.exec();
+    m_model->setFilter(filter);
 }
 
 void Dialog::selectCustomLogFile()
 {
-     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Pacman Log File"),
-                                                 lastPath.isEmpty() ? QDir::homePath() : lastPath,
+     const QString fileName = QFileDialog::getOpenFileName(this, tr("Open Pacman Log File"),
+                                                 m_lastPath.isEmpty() ? QDir::homePath() : m_lastPath,
                                                  tr("Logs (*.log)"));
      if(!QFile::exists(fileName)) {
          qDebug() << "Selected file" << fileName << "does not exist.";
          return;
      }
      
-     lastPath = QFileInfo(fileName).absolutePath();
+     m_lastPath = QFileInfo(fileName).absolutePath();
      
      readPacmanLogFile(fileName);
-}
-
-void Dialog::loadDefaultLog()
-{
-    readPacmanLogFile("/var/log/pacman.log");
 }

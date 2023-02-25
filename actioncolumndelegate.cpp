@@ -15,20 +15,22 @@ ActionColumnDelegate::ActionColumnDelegate(QObject *parent) :
 
 QSize ActionColumnDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    Q_UNUSED(index)
     return option.rect.size();
 }
 
 void ActionColumnDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QString action = index.data().toString();
-    QString icon;
+    const auto action = index.data().toString();
 
-    QSize iconSize(22,22);
+    const QSize iconSize(22,22);
 
-    QRect iconRect(option.rect.x() + (option.rect.width()/2) - (iconSize.width()/2),
+    const QRect iconRect(option.rect.x() + (option.rect.width()/2) - (iconSize.width()/2),
                    option.rect.y() + (option.rect.height()/2) - (iconSize.height()/2),
                    iconSize.width(),
                    iconSize.height());
+
+    QString icon;
 
     if(action == "installed")
         icon = "list-add";

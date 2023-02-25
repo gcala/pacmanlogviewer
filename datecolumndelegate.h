@@ -16,12 +16,7 @@ public:
     explicit DateColumnDelegate(QObject *parent = 0);
 
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-
-signals:
-    
-public slots:
-    
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;    
 };
 
 #endif // DATECOLUMNDELEGATE_H

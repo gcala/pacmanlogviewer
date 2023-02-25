@@ -19,15 +19,26 @@ FiltersWidget::FiltersWidget(QWidget *parent) :
     ui->fromDateEdit->setLocale(QLocale::system());
     ui->toDateEdit->setLocale(QLocale::system());
 
-    connect(ui->installedCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
-    connect(ui->upgradedCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
-    connect(ui->removedCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
-    connect(ui->downgradedCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
-    connect(ui->reinstalledCheckBox, SIGNAL(toggled(bool)), this, SIGNAL(filtersChanged()));
-    connect(ui->fromDateEdit, SIGNAL(dateChanged(QDate)), this, SIGNAL(filtersChanged()));
-    connect(ui->toDateEdit, SIGNAL(dateChanged(QDate)), this, SIGNAL(filtersChanged()));
-    connect(ui->dateComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(dateRangeChanged(int)));
-    connect(ui->toggleFiltersButton, SIGNAL(toggled(bool)), this, SLOT(filtersToggled(bool)));
+    const auto checkBoxes = findChildren< QCheckBox * >();
+    for(auto cb : checkBoxes) {
+        connect(cb, &QCheckBox::toggled, this, &FiltersWidget::filtersChanged);
+    }
+    const auto dateEdits = findChildren< QDateEdit * >();
+    for(auto de : dateEdits) {
+        connect(de, &QDateEdit::dateChanged, this, &FiltersWidget::filtersChanged);
+    }
+
+    connect(ui->dateComboBox, &QComboBox::currentIndexChanged, this, [=] (int index) {
+        ui->fromDateEdit->setEnabled(index == 5 ? true : false);
+        ui->toDateEdit->setEnabled(index == 5 ? true : false);
+
+        emit filtersChanged();
+    });
+
+    connect(ui->toggleFiltersButton, &QToolButton::toggled, this, [=](bool shown) {
+        ui->FiltersContainer->setHidden(!shown);
+        ui->toggleFiltersButton->setArrowType(shown ? Qt::ArrowType::DownArrow : Qt::ArrowType::RightArrow);
+    });
 }
 
 FiltersWidget::~FiltersWidget()
@@ -113,18 +124,4 @@ QDate FiltersWidget::toDate()
 void FiltersWidget::setToDate(const QDate &date)
 {
     ui->toDateEdit->setDate(date);
-}
-
-void FiltersWidget::filtersToggled(bool shown)
-{
-    ui->FiltersContainer->setHidden(!shown);
-    ui->toggleFiltersButton->setArrowType(shown ? Qt::ArrowType::DownArrow : Qt::ArrowType::RightArrow);
-}
-
-void FiltersWidget::dateRangeChanged(int index)
-{
-    ui->fromDateEdit->setEnabled(index == 5 ? true : false);
-    ui->toDateEdit->setEnabled(index == 5 ? true : false);
-
-    emit filtersChanged();
 }

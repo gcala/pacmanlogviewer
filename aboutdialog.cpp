@@ -16,14 +16,13 @@ AboutDialog::AboutDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->versionLabel->setText(PLV_VERSION);
+
+    connect(ui->closeButton, &QPushButton::clicked, this, [=]() {
+        this->close();
+    });
 }
 
 AboutDialog::~AboutDialog()
 {
     delete ui;
-}
-
-void AboutDialog::on_pushButton_clicked()
-{
-    this->close();
 }

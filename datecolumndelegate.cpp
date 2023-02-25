@@ -16,14 +16,13 @@ DateColumnDelegate::DateColumnDelegate(QObject *parent) :
 
 QSize DateColumnDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    Q_UNUSED(index)
     return option.rect.size();
 }
 
 void DateColumnDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QDate date(index.data().toDate());
-
-    int leftMargin = 4;
+    const int leftMargin = 4;
 
     QRect textRect(option.rect.x() + leftMargin,
                    option.rect.y(),
@@ -39,5 +38,5 @@ void DateColumnDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
     QLocale::setDefault(QLocale::system());
 
-    painter->drawText(textRect, Qt::AlignVCenter, QLocale::system().toString(date, QLocale::LongFormat));
+    painter->drawText(textRect, Qt::AlignVCenter, QLocale::system().toString(index.data().toDate(), QLocale::LongFormat));
 }

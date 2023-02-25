@@ -18,8 +18,6 @@ public:
     explicit PkgNameCompleter(QObject *parent = 0);
     void setTags(const QStringList &tags);
     
-signals:
-    
 public slots:
     void update(QStringList, QString);
 

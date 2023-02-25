@@ -15,7 +15,7 @@ PkgNameCompleter::PkgNameCompleter(QObject *parent) :
 void PkgNameCompleter::update(QStringList text_tags, QString completion_prefix)
 {
     QStringList tags(all_tags);
-    foreach(QString s, text_tags) {
+    for(const auto &s : text_tags) {
         if(text_tags.indexOf(s) == (text_tags.count() - 1) )
             tags.removeAll(s.trimmed().left(s.size()-1));
         else
@@ -24,11 +24,11 @@ void PkgNameCompleter::update(QStringList text_tags, QString completion_prefix)
 
     model->setStringList(tags);
 
-    this->setModel(model);
+    setModel(model);
 
-    this->setCompletionPrefix(completion_prefix);
+    setCompletionPrefix(completion_prefix);
     if(completion_prefix.trimmed() != "")
-        this->complete();
+        complete();
 }
 
 void PkgNameCompleter::setTags(const QStringList &tags)

@@ -5,9 +5,6 @@
  */
 
 #include <QApplication>
-#include <QTranslator>
-#include <QLibraryInfo>
-#include <QLocale>
 #include "dialog.h"
 
 int main(int argc, char *argv[])

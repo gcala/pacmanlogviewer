@@ -23,25 +23,22 @@ class Dialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit Dialog(QWidget *parent = 0);
+    explicit Dialog(QWidget *parent = nullptr);
     ~Dialog();
     
 private slots:
     void applyFilters();
-    void showAboutDialog();
     void selectCustomLogFile();
-    void loadDefaultLog();
 
 private:
     Ui::Dialog *ui;
-    QSqlTableModel *model;
-    PkgNameCompleter *pkgNameCompleter;
-    QAction *loadCustomLog;
-    QAction *openAboutDialog;
-    QAction *reloadDefaultLog;
-    QString lastPath;
-
-    QDate oldestDate;
+    QSqlTableModel *m_model;
+    PkgNameCompleter *m_pkgNameCompleter;
+    QAction *m_customLogAction;
+    QAction *m_aboutAction;
+    QAction *m_reloadAction;
+    QString m_lastPath;
+    QDate m_oldestDate;
 
     void loadSettings();
     void readPacmanLogFile(const QString &logFile);

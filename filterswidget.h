@@ -38,10 +38,6 @@ public:
     void setFromDate(const QDate &);
     QDate toDate();
     void setToDate(const QDate &);
-    
-private slots:
-    void filtersToggled(bool);
-    void dateRangeChanged(int);
 
 signals:
     void filtersChanged();
