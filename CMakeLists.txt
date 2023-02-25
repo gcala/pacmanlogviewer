@@ -58,7 +58,7 @@ install(TARGETS plv RUNTIME DESTINATION bin)
 
 install(FILES ${plv_I18N} DESTINATION ${CMAKE_INSTALL_DATADIR}/${APPLICATION_EXECUTABLE}/i18n)
 
-install(FILES ${CMAKE_SOURCE_DIR}/pacmanlogviewer.desktop 
+install(FILES ${CMAKE_SOURCE_DIR}/it.cuteworks.pacmanlogviewer.desktop 
         DESTINATION share/applications )
 install(FILES ${CMAKE_SOURCE_DIR}/images/16x16/plv.png
         DESTINATION share/icons/hicolor/16x16/apps/ RENAME plv.png)
