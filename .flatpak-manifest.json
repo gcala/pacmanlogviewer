@@ -1,0 +1,30 @@
+{
+    "id": "it.cuteworks.pacmanlogviewer",
+    "branch": "master",
+    "rename-icon": "plv",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "5.15-22.08",
+    "sdk": "org.kde.Sdk",
+    "command": "plv",
+    "tags": ["nightly"],
+    "desktop-file-name-suffix": " (Nightly)",
+    "finish-args": [
+        "--share=ipc",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--device=dri",
+        "--filesystem=/var/log/pacman.log:ro"
+    ],
+    "modules": [
+        {
+            "name": "pacmanlogviewer",
+            "buildsystem": "cmake",
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": "."
+                }
+            ]
+        }
+    ]
+}
