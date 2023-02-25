@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  - SPDX-License-Identifier: CC0-1.0
+  - SPDX-FileCopyrightText: 2023 Giuseppe Calà <gcala@mailbox.org>
+ -->
+<component type="desktop-application">
+  <id>it.cuteworks.pacmanlogviewer</id>
+  <name>Pacman Log Viewer</name>
+  <name xml:lang="it">Pacman Log Viewer</name>
+  <summary>Inspect pacman log</summary>
+  <summary xml:lang="it">Ispeziona il file di log di pacman</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <url type="homepage">https://cuteworks.it</url>
+  <url type="donation">https://paypal.me/gcala</url>
+  <url type="bugtracker">https://github.com/gcala/pacmanlogviewer/issues</url>
+  <content_rating type="oars-1.1"/>
+  <developer_name>Giuseppe Calà</developer_name>
+  <description>
+    <p>Pacman Log Viewer is a pacman log file reader</p>
+    <p xml:lang="it">Pacman Log Viewer è un lettore di file di log di pacman</p>
+  </description>
+  <provides>
+    <binary>plv</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Pacman Log Viewer: main window</caption>
+      <caption xml:lang="it">Pacman Log Viewer: finestra principale</caption>
+      <image>https://images.pling.com/img/00/00/13/30/59/1131723/150484-1.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Pacman Log Viewer: search for a package</caption>
+      <caption xml:lang="it">Pacman Log Viewer: ricerca di un pacchetto</caption>
+      <image>https://images.pling.com/img/00/00/13/30/59/1131723/150484-2.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">it.cuteworks.pacmanlogviewer.desktop</launchable>
+  <releases>
+    <release version="1.4.3" date="2021-02-10">
+      <url>https://github.com/gcala/pacmanlogviewer/releases/tag/v1.4.3</url>
+      <description>
+        <p>fix duplicated entries</p>
+      </description>
+    </release>
+    <release version="1.4.2" date="2019-12-22">
+      <url>https://github.com/gcala/pacmanlogviewer/releases/tag/v1.4.2</url>
+      <description>
+        <p>fix negative UTC offsets</p>
+      </description>
+    </release>
+    <release version="1.4.1" date="2019-11-15">
+      <url>https://github.com/gcala/pacmanlogviewer/releases/tag/v1.4.1</url>
+      <description>
+        <p>fixed issue with regular expression</p>
+      </description>
+    </release>
+    <release version="1.4.0" date="2019-11-10">
+      <url>https://github.com/gcala/pacmanlogviewer/releases/tag/v1.4.0</url>
+      <description>
+        <p>fix for pacman 5.2</p>
+      </description>
+    </release>
+    <release version="1.3.1" date="2019-03-03">
+      <description>
+        <p>fix for pacman 4.2</p>
+      </description>
+    </release>
+    <release version="1.3.0" date="2015-02-01">
+      <description>
+        <ul>
+          <li>added: Qt5 support (use -DBUILD_WITH_QT5=ON in cmake)</li>
+          <li>added: load custom log file</li>
+          <li>switched to cmake build system</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.2.1" date="2013-06-01">
+      <description>
+        <p>fixed missing icon with gtk themes</p>
+      </description>
+    </release>
+    <release version="1.2" date="2013-01-01">
+      <description>
+        <ul>
+          <li>fixed compatibility with pacman 4.1</li>
+          <li>fixed icon not appearing in gnome</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.1" date="2012-10-01">
+      <description>
+        <ul>
+          <li>Replaced 'Past 24 hours' with 'Today'</li>
+          <li>Fixed locale for date range controls</li>
+          <li>Saved filters selection on exit</li>
+          <li>Added sortable columns</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.0" date="2012-4-29">
+      <description>
+        <p>Initial release</p>
+      </description>
+    </release>
+  </releases>
+</component>

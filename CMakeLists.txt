@@ -60,6 +60,8 @@ install(FILES ${plv_I18N} DESTINATION ${CMAKE_INSTALL_DATADIR}/${APPLICATION_EXE
 
 install(FILES ${CMAKE_SOURCE_DIR}/it.cuteworks.pacmanlogviewer.desktop 
         DESTINATION share/applications )
+install(FILES ${CMAKE_SOURCE_DIR}/it.cuteworks.pacmanlogviewer.appdata.xml 
+        DESTINATION share/metainfo)
 install(FILES ${CMAKE_SOURCE_DIR}/images/16x16/plv.png
         DESTINATION share/icons/hicolor/16x16/apps/ RENAME plv.png)
 install(FILES ${CMAKE_SOURCE_DIR}/images/24x24/plv.png
