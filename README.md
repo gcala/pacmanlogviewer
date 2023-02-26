@@ -1,5 +1,5 @@
-Pacman Log Viewer 1.4.3
-Copyright (C) 2012-2021 Giuseppe Calà <jiveaxe@gmail.com>
+Pacman Log Viewer 1.5.0
+Copyright (C) 2012-2023 Giuseppe Calà <gcala@mailbox.org>
 
 Pacman Log viewer is a tool used to inspect pacman log file, in particular
 it lists installed, removed, upgraded, downgraded and reinstalled packages
@@ -8,8 +8,8 @@ allowing you to filter by package name and/or date.
 A common use case is after a problematic update when many files are
 involved and we do not much care about applied changes.
 
-This utility works only in Archlinux and derivative and requires the Qt4 or
-Qt5 toolkit.
+This utility works only in Archlinux and derivative and requires the Qt5 or
+above toolkit.
 
 ----
 

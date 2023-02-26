@@ -37,6 +37,19 @@
   </screenshots>
   <launchable type="desktop-id">it.cuteworks.pacmanlogviewer.desktop</launchable>
   <releases>
+    <release version="1.5.0" date="2023-02-26">
+      <url>https://github.com/gcala/pacmanlogviewer/releases/download/v1.5.0/pacmanlogviewer-1.5.0.tar.gz</url>
+      <description>
+        <ul>
+          <li>Dropped Qt4 support and welcome to Qt6</li>
+          <li>Include 'downgraded' and 'reinstalled' actions (Thanks to chrisjbillington@github)</li>
+          <li>Added standard Quit Ctrl+Q shortcut (Thanks to vedgy@github)</li>
+          <li>Improved start-up times (Thanks to vedgy@github)</li>
+          <li>Added support to AppStream metadata</li>
+          <li>Added support for flatpak</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.4.3" date="2021-02-10">
       <url>https://github.com/gcala/pacmanlogviewer/releases/tag/v1.4.3</url>
       <description>

@@ -4,9 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += core gui sql widgets
 
 TARGET = plv
 TEMPLATE = app
