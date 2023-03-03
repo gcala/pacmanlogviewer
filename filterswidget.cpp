@@ -28,7 +28,7 @@ FiltersWidget::FiltersWidget(QWidget *parent) :
         connect(de, &QDateEdit::dateChanged, this, &FiltersWidget::filtersChanged);
     }
 
-    connect(ui->dateComboBox, &QComboBox::currentIndexChanged, this, [=] (int index) {
+    connect(ui->dateComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [=] (int index) {
         ui->fromDateEdit->setEnabled(index == 5 ? true : false);
         ui->toDateEdit->setEnabled(index == 5 ? true : false);
 
