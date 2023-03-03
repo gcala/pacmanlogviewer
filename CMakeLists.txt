@@ -2,7 +2,7 @@ project(plv)
 # ==================================================================================
 # Information to update before to release this package.
 include(GNUInstallDirs)
-SET(PLV_VERSION "1.5.0" )
+SET(PLV_VERSION "1.5.1" )
 set( APPLICATION_EXECUTABLE "plv" )
 set( SHAREDIR ${CMAKE_INSTALL_FULL_DATADIR} )
 configure_file(config-version.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-version.h )

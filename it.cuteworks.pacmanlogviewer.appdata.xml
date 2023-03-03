@@ -27,16 +27,30 @@
     <screenshot type="default">
       <caption>Pacman Log Viewer: main window</caption>
       <caption xml:lang="it">Pacman Log Viewer: finestra principale</caption>
-      <image>https://images.pling.com/img/00/00/13/30/59/1131723/150484-1.png</image>
+      <image>https://cuteworks.it/pacmanlogviewer-20230226/plv1.png</image>
     </screenshot>
     <screenshot type="default">
       <caption>Pacman Log Viewer: search for a package</caption>
       <caption xml:lang="it">Pacman Log Viewer: ricerca di un pacchetto</caption>
-      <image>https://images.pling.com/img/00/00/13/30/59/1131723/150484-2.png</image>
+      <image>https://cuteworks.it/pacmanlogviewer-20230226/plv2.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Pacman Log Viewer: date filter</caption>
+      <caption xml:lang="it">Pacman Log Viewer: filtro in base alla data</caption>
+      <image>https://cuteworks.it/pacmanlogviewer-20230226/plv3.png</image>
     </screenshot>
   </screenshots>
   <launchable type="desktop-id">it.cuteworks.pacmanlogviewer.desktop</launchable>
   <releases>
+    <release version="1.5.1" date="2023-03-03">
+      <url>https://github.com/gcala/pacmanlogviewer/releases/download/v1.5.1/pacmanlogviewer-1.5.1.tar.gz</url>
+      <description>
+        <ul>
+          <li>Fix compile issue with Flathub builder</li>
+          <li>Updated images for AppStream metadata file</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.5.0" date="2023-02-26">
       <url>https://github.com/gcala/pacmanlogviewer/releases/download/v1.5.0/pacmanlogviewer-1.5.0.tar.gz</url>
       <description>
